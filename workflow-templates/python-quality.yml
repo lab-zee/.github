@@ -1,0 +1,27 @@
+name: Quality
+
+on:
+  pull_request:
+  push:
+    branches:
+      - $default-branch
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    uses: lab-zee/.github/.github/workflows/python-quality.yml@main
+    with:
+      python_version: "3.12"
+      install_command: python -m pip install -r requirements.txt
+      format_command: ruff format --check .
+      lint_command: ruff check .
+      typecheck_command: mypy .
+      test_command: pytest
+      build_command: python -m build
+      timeout_minutes: 20

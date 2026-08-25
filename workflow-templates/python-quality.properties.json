@@ -1,0 +1,14 @@
+{
+  "name": "Lab Z Python quality",
+  "description": "Run blocking Python format, lint, typecheck, test, and build checks.",
+  "iconName": "octicon shield-check",
+  "categories": [
+    "Continuous integration",
+    "Python"
+  ],
+  "filePatterns": [
+    "pyproject\\.toml$",
+    "requirements.*\\.txt$",
+    "setup\\.py$"
+  ]
+}

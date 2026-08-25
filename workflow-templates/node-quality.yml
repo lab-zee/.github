@@ -1,0 +1,28 @@
+name: Quality
+
+on:
+  pull_request:
+  push:
+    branches:
+      - $default-branch
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    uses: lab-zee/.github/.github/workflows/node-quality.yml@main
+    with:
+      node_version: "20"
+      install_command: npm ci
+      format_command: npm run format:check
+      lint_command: npm run lint
+      typecheck_command: npm run typecheck
+      test_command: npm test
+      knip_command: npm run knip
+      build_command: npm run build
+      timeout_minutes: 20

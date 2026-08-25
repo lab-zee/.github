@@ -1,0 +1,13 @@
+---
+description: Communicate engineering work in plain and concise language
+alwaysApply: true
+---
+
+# Plain language
+
+- Lead with the outcome, decision, or blocker.
+- Prefer short, direct sentences and concrete terms.
+- Explain jargon only when it helps the reader act.
+- Separate observed evidence from inference and uncertainty.
+- Report exact validation and avoid claims broader than the evidence.
+- Use only enough headings, lists, and detail to make the response easy to scan.

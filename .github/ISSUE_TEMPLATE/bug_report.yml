@@ -1,0 +1,55 @@
+name: Bug report
+description: Report a reproducible defect in a Lab Z project
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not report security vulnerabilities here. Use the private process in SECURITY.md.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What happened, and what did you expect instead?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Provide the smallest reliable steps, code, or repository that demonstrates the problem.
+      placeholder: |
+        1. Install ...
+        2. Run ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      description: Identify the affected release, package version, or commit SHA.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include relevant operating system, runtime, browser, and dependency versions.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Sanitized logs or context
+      description: Remove secrets, credentials, private data, and personal information before posting.
+      render: shell
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Submission checks
+      options:
+        - label: I searched existing issues and confirmed this is not a security vulnerability.
+          required: true

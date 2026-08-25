@@ -1,0 +1,17 @@
+---
+description: Keep engineering changes focused, preventive, and evidence-led
+alwaysApply: true
+---
+
+# Core engineering
+
+- Read repository guidance and the complete relevant code path before editing.
+- Prefer durable prevention and automation when cheaper than recurring repair.
+- Make the smallest focused change that fully solves the requested problem.
+- Keep unrelated cleanup separate unless it is required for correctness.
+- Preserve repository-specific architecture and conventions unless the task
+  explicitly requires changing them.
+- Identify assumptions, material uncertainty, security impact, and operational
+  risk instead of presenting guesses as facts.
+- Do not perform external writes, commits, pushes, issue creation, or releases
+  unless the user or repository guidance authorizes them.

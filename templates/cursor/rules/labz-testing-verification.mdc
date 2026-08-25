@@ -1,0 +1,15 @@
+---
+description: Require meaningful tests and truthful verification evidence
+alwaysApply: true
+---
+
+# Testing and verification
+
+- Add a regression test for each bug fix when practical.
+- Test observable behavior, important branches, and failure modes; avoid tests
+  that only restate mocks or inflate coverage.
+- Run checks proportional to risk, including applicable format, lint,
+  typecheck, test, dead-code, package/artifact, and build validation.
+- Fix failures caused by the change; do not weaken checks to make them pass.
+- Report commands and results accurately, including checks not run and why.
+- Treat green CI as evidence, not a substitute for engineering judgment.

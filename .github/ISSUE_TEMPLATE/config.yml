@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/lab-zee/.github/security/policy
+    about: Review the private security reporting process before sharing details.
+  - name: Support guidance
+    url: https://github.com/lab-zee/.github/blob/main/SUPPORT.md
+    about: Choose the appropriate support channel and information to provide.
