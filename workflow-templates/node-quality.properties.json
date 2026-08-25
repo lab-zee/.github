@@ -1,0 +1,13 @@
+{
+  "name": "Lab Z Node quality",
+  "description": "Run blocking Node format, lint, typecheck, test, dead-code, and build checks.",
+  "iconName": "octicon shield-check",
+  "categories": [
+    "Continuous integration",
+    "JavaScript",
+    "TypeScript"
+  ],
+  "filePatterns": [
+    "package\\.json$"
+  ]
+}

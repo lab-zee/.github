@@ -1,0 +1,111 @@
+name: Reusable Python quality
+
+on:
+  workflow_call:
+    inputs:
+      python_version:
+        description: Python version installed by setup-python
+        required: false
+        type: string
+        default: "3.12"
+      working_directory:
+        description: Repository-relative directory in which commands run
+        required: false
+        type: string
+        default: "."
+      cache:
+        description: setup-python dependency cache (pip, pipenv, or poetry)
+        required: false
+        type: string
+        default: pip
+      cache_dependency_path:
+        description: Repository-relative dependency file used for caching
+        required: false
+        type: string
+        default: requirements.txt
+      install_command:
+        description: Dependency installation command; skipped when empty
+        required: false
+        type: string
+        default: python -m pip install -r requirements.txt
+      format_command:
+        description: Non-mutating format verification command; skipped when empty
+        required: false
+        type: string
+        default: ""
+      lint_command:
+        description: Lint command; skipped when empty
+        required: false
+        type: string
+        default: ""
+      typecheck_command:
+        description: Typecheck command; skipped when empty
+        required: false
+        type: string
+        default: ""
+      test_command:
+        description: Test command; skipped when empty
+        required: false
+        type: string
+        default: ""
+      build_command:
+        description: Build, package, or artifact validation command; skipped when empty
+        required: false
+        type: string
+        default: ""
+      timeout_minutes:
+        description: Maximum job runtime in minutes
+        required: false
+        type: number
+        default: 20
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Python quality
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ inputs.timeout_minutes }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: ${{ inputs.python_version }}
+          cache: ${{ inputs.cache }}
+          cache-dependency-path: ${{ inputs.cache_dependency_path }}
+
+      - name: Install dependencies
+        if: ${{ inputs.install_command != '' }}
+        run: ${{ inputs.install_command }}
+        working-directory: ${{ inputs.working_directory }}
+
+      - name: Verify formatting
+        if: ${{ inputs.format_command != '' }}
+        run: ${{ inputs.format_command }}
+        working-directory: ${{ inputs.working_directory }}
+
+      - name: Lint
+        if: ${{ inputs.lint_command != '' }}
+        run: ${{ inputs.lint_command }}
+        working-directory: ${{ inputs.working_directory }}
+
+      - name: Typecheck
+        if: ${{ inputs.typecheck_command != '' }}
+        run: ${{ inputs.typecheck_command }}
+        working-directory: ${{ inputs.working_directory }}
+
+      - name: Test
+        if: ${{ inputs.test_command != '' }}
+        run: ${{ inputs.test_command }}
+        working-directory: ${{ inputs.working_directory }}
+
+      - name: Build and validate artifacts
+        if: ${{ inputs.build_command != '' }}
+        run: ${{ inputs.build_command }}
+        working-directory: ${{ inputs.working_directory }}

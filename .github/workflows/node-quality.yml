@@ -1,0 +1,116 @@
+name: Reusable Node quality
+
+on:
+  workflow_call:
+    inputs:
+      node_version:
+        description: Node.js version installed by setup-node
+        required: false
+        type: string
+        default: "20"
+      working_directory:
+        description: Repository-relative directory in which commands run
+        required: false
+        type: string
+        default: "."
+      cache_dependency_path:
+        description: Repository-relative npm lockfile path used for caching
+        required: false
+        type: string
+        default: package-lock.json
+      install_command:
+        description: Dependency installation command
+        required: false
+        type: string
+        default: npm ci
+      format_command:
+        description: Non-mutating format verification command; skipped when empty
+        required: false
+        type: string
+        default: ""
+      lint_command:
+        description: Lint command; skipped when empty
+        required: false
+        type: string
+        default: ""
+      typecheck_command:
+        description: Typecheck command; skipped when empty
+        required: false
+        type: string
+        default: ""
+      test_command:
+        description: Test command; skipped when empty
+        required: false
+        type: string
+        default: ""
+      knip_command:
+        description: Knip or equivalent dead-code command; skipped when empty
+        required: false
+        type: string
+        default: ""
+      build_command:
+        description: Build or artifact validation command; skipped when empty
+        required: false
+        type: string
+        default: ""
+      timeout_minutes:
+        description: Maximum job runtime in minutes
+        required: false
+        type: number
+        default: 20
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Node quality
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ inputs.timeout_minutes }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ inputs.node_version }}
+          cache: npm
+          cache-dependency-path: ${{ inputs.cache_dependency_path }}
+
+      - name: Install dependencies
+        if: ${{ inputs.install_command != '' }}
+        run: ${{ inputs.install_command }}
+        working-directory: ${{ inputs.working_directory }}
+
+      - name: Verify formatting
+        if: ${{ inputs.format_command != '' }}
+        run: ${{ inputs.format_command }}
+        working-directory: ${{ inputs.working_directory }}
+
+      - name: Lint
+        if: ${{ inputs.lint_command != '' }}
+        run: ${{ inputs.lint_command }}
+        working-directory: ${{ inputs.working_directory }}
+
+      - name: Typecheck
+        if: ${{ inputs.typecheck_command != '' }}
+        run: ${{ inputs.typecheck_command }}
+        working-directory: ${{ inputs.working_directory }}
+
+      - name: Test
+        if: ${{ inputs.test_command != '' }}
+        run: ${{ inputs.test_command }}
+        working-directory: ${{ inputs.working_directory }}
+
+      - name: Check dead code and dependencies
+        if: ${{ inputs.knip_command != '' }}
+        run: ${{ inputs.knip_command }}
+        working-directory: ${{ inputs.working_directory }}
+
+      - name: Build and validate artifacts
+        if: ${{ inputs.build_command != '' }}
+        run: ${{ inputs.build_command }}
+        working-directory: ${{ inputs.working_directory }}
